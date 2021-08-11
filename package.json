@@ -1,0 +1,26 @@
+{
+  "name": "full-stack-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js" ,
+    "dev":"SET NODE_ENV=DEVELOPMENT & nodemon backend/server.js",
+    "prod":"SET NODE_ENV=PRODUCTION & nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shripatiavasthi/full-ecom.git"
+  },
+  "author": "shripati avasthi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shripatiavasthi/full-ecom/issues"
+  },
+  "homepage": "https://github.com/shripatiavasthi/full-ecom#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.5"
+  }
+}

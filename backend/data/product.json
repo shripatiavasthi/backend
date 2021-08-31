@@ -1,15 +1,15 @@
 {
-    "name" : "SanDisk Ultra",
+    "name" : "SanDisk Ultra 1",
     "price": 45,
-    "description" : "Ultra Fast",
+    "description" : "Ultra Fast very fast",
     "ratings" : 4.5,
     "images" : [{
-        "public_id" : "prodcut/jksdfjsal",
-        "url": "https://google.com"
+        "public_id" : "prodcut/jksdfjsal/hgjhgj",
+        "url": "https://google.com/hjgh"
     }],
     "category" : "Electronics",
     "seller" : "shrpati",
-    "stock" : 50,
+    "stock" : 40,
     "numOfReviews" : 1,
     "reviews" : []
 

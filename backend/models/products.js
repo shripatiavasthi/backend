@@ -43,41 +43,41 @@ const productSchema = new mongoose.Schema({
                 'Food',
                 'Clothes',
                 'Shoes',
-                'Sports'
+                'Sports',
+                'TV'
             ],
-            message: 'Please enter correct category'
+            message: 'Please enter correct category',
         },
-        seller: {
-            type: String,
-            required: [true, 'Please enter seller cannot be empty'],
-        },
-        stock: {
-            type: Number,
-            required: [true, 'Please enter stock cannot be empty'],
-            maxLenght: [5, 'Stock enter cannot exceed 5 characters'],
-            default: 0
-        },
-        numOfReview: {
-            type: Number,
-            default: 0
-        },
-        reviews: [{
-            name: {
-                type: String,
-                required: true,
-            },
-            ratings: {
-                type: Number,
-                required: true
-            },
-            comment: {
-                type: String,
-                required: true,
-            }
-        }],
-
     },
+    seller: {
+        type: String,
+        required: [true, 'Please enter seller cannot be empty'],
+    },
+    stock: {
+        type: Number,
+        required: [true, 'Please enter stock cannot be empty'],
+        maxLenght: [5, 'Stock enter cannot exceed 5 characters'],
+        default: 0
+    },
+    numOfReview: {
+        type: Number,
+        default: 0
+    },
+    reviews: [{
+        name: {
+            type: String,
+            required: true,
+        },
+        ratings: {
+            type: Number,
+            required: true
+        },
+        comment: {
+            type: String,
+            required: true,
+        }
+    }],
 
-},{timestamps : true})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Products', productSchema)

@@ -1,12 +1,14 @@
 const Product = require('../models/products')
 const ErrorHandler = require('../utils/errorHandler')
+const catchAsynErrors = require('../middlewares/catchAsynErrors')
 
-exports.newProduct = async (req, res, next) => {
+
+exports.newProduct = catchAsynErrors( async (req, res, next) => {
     const product = await Product.create(req.body)
     res.status(201).json({ success: true, product })
-}
+})
 
-exports.getProducts = async (req, res, next) => {
+exports.getProducts = catchAsynErrors( async (req, res, next) => {
     const products = await Product.find();
     res.status(200).json({
         success: true,
@@ -14,9 +16,9 @@ exports.getProducts = async (req, res, next) => {
         message: 'This route will show all products',
         products
     })
-}
+})
 
-exports.getProductsByID = async (req, res, next) => {
+exports.getProductsByID = catchAsynErrors ( async (req, res, next) => {
 
     const product = await Product.findById(req.params.id);
 
@@ -28,33 +30,27 @@ exports.getProductsByID = async (req, res, next) => {
             product
         })
  
-}
+})
 
-exports.delProductsByID = async (req, res, next) => {
+exports.delProductsByID = catchAsynErrors(async (req, res, next) => {
 
     const product = await Product.findByIdAndRemove(req.params.id);
 
     if (!product) {
-        res.status(404).json({
-            success: false,
-            message: 'No product with this id'
-        })
+        return next(new ErrorHandler('Product not found', 404))
     } else {
         res.status(200).json({
             success: true,
         })
     }
-}
+})
 
-exports.updateProductsByID = async (req, res, next) => {
+exports.updateProductsByID = catchAsynErrors (async (req, res, next) => {
 
     let product = await Product.findById(req.params.id);
 
     if (!product) {
-        res.status(404).json({
-            success: false,
-            message: 'No product with this id'
-        })
+        return next(new ErrorHandler('Product not found', 404))
     } 
     product = await Product.findByIdAndUpdate(req.params.id,req.body,{
         new : true,
@@ -65,4 +61,4 @@ exports.updateProductsByID = async (req, res, next) => {
         success :true,
         product
     })
-}
+})

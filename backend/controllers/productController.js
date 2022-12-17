@@ -1,6 +1,7 @@
 const Product = require('../models/products')
 const ErrorHandler = require('../utils/errorHandler')
 const catchAsynErrors = require('../middlewares/catchAsynErrors')
+const APIFeatures = require('../utils/apiFeatures')
 
 
 exports.newProduct = catchAsynErrors( async (req, res, next) => {
@@ -9,9 +10,13 @@ exports.newProduct = catchAsynErrors( async (req, res, next) => {
 })
 
 exports.getProducts = catchAsynErrors( async (req, res, next) => {
-    const products = await Product.find();
+
+    const apiFeatures = new APIFeatures(Product.find(),req.query).search().filter().pagination(2)
+    const products = await apiFeatures.query;
+    const productCount = await Product.countDocuments();
     res.status(200).json({
         success: true,
+        productCount,
         count: products.length,
         message: 'This route will show all products',
         products

@@ -32,23 +32,6 @@ const productSchema = new mongoose.Schema({
                 required: true,
             }
         }],
-    category: {
-        type: String,
-        required: [true, 'Please enter category cannot be empty'],
-        enum: {
-            values: [
-                'Electronics',
-                'Camera',
-                'Beauty',
-                'Food',
-                'Clothes',
-                'Shoes',
-                'Sports',
-                'TV'
-            ],
-            message: 'Please enter correct category',
-        },
-    },
     seller: {
         type: String,
         required: [true, 'Please enter seller cannot be empty'],
@@ -77,6 +60,17 @@ const productSchema = new mongoose.Schema({
             required: true,
         }
     }],
+    Category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    },
+    SubCategory: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'SubCategory',
+        required: false
+    }
+
 
 }, { timestamps: true })
 

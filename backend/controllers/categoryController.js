@@ -1,4 +1,7 @@
 const Category = require('../models/category')
+const ErrorHandler = require('../utils/errorHandler')
+const catchAsynErrors = require('../middlewares/catchAsynErrors')
+const APIFeatures = require('../utils/apiFeatures')
 
 exports.newCategory = async (req, res, next) => {
     const category = await Category.create(req.body)
@@ -6,10 +9,13 @@ exports.newCategory = async (req, res, next) => {
 }
 
 exports.getCategory = async (req, res, next) => {
-    const category = await Category.find();
+    const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter().pagination(2)
+    const categoryCount = await Category.countDocuments();
+    const category = await apiFeatures.query;
     res.status(200).json({
         success: true,
         count: category.length,
+        categoryCount,
         message: 'This route will show all products',
         category
     })
@@ -20,10 +26,7 @@ exports.getCategoryByID = async (req, res, next) => {
     const category = await Category.findById(req.params.id);
 
     if (!category) {
-        res.status(404).json({
-            success: false,
-            message: 'No product with this id'
-        })
+        return next(new ErrorHandler('Product not found', 404))
     } else {
         res.status(200).json({
             success: true,
@@ -32,15 +35,14 @@ exports.getCategoryByID = async (req, res, next) => {
     }
 }
 
+
+
 exports.delCategoryByID = async (req, res, next) => {
 
     const category = await Category.findByIdAndRemove(req.params.id);
 
     if (!category) {
-        res.status(404).json({
-            success: false,
-            message: 'No product with this id'
-        })
+        return next(new ErrorHandler('Product not found', 404))
     } else {
         res.status(200).json({
             success: true,
@@ -53,18 +55,15 @@ exports.updateCategorysByID = async (req, res, next) => {
     let category = await Category.findById(req.params.id);
 
     if (!category) {
-        res.status(404).json({
-            success: false,
-            message: 'No product with this id'
-        })
-    } 
-    category = await Category.findByIdAndUpdate(req.params.id,req.body,{
-        new : true,
-        runValidators : true,
+        return next(new ErrorHandler('Product not found', 404))
+    }
+    category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
         useFindAndModify: false
     })
     res.status(200).json({
-        success :true,
+        success: true,
         category
     })
 }

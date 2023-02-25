@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        required: [true, 'Please enter description cannot be empty'],
         maxLenght: [500, 'Descriptiom cannot exceed 5 characters'],
     },
     ratings: {

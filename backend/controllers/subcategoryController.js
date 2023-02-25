@@ -11,7 +11,7 @@ exports.getSubCategory = async (req, res, next) => {
         success: true,
         count: subcategory.length,
         message: 'This route will show all products',
-        category
+        subcategory
     })
 }
 

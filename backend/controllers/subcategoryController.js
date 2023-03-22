@@ -1,13 +1,16 @@
 const Subcategory = require('../models/subcategory')
+const ErrorHandler = require('../utils/errorHandler')
+const catchAsynErrors = require('../middlewares/catchAsynErrors')
+const APIFeatures = require('../utils/apiFeatures')
 
-exports.newSubcategory = async (req, res, next) => {
+exports.newSubcategory = catchAsynErrors(async (req, res, next) => {
     const subcategory = await Subcategory.create(req.body)
     res.status(201).json({ success: true, subcategory })
-}
+})
 
-exports.getSubCategory = async (req, res, next) => {
+exports.getSubCategory = catchAsynErrors(async (req, res, next) => {
     const apiFeatures = new APIFeatures(Subcategory.find(), req.query).search().filter().pagination(2)
-    const subcategoryCount = await Category.countDocuments();
+    const subcategoryCount = await Subcategory.countDocuments();
     const subcategory = await apiFeatures.query;
     res.status(200).json({
         success: true,
@@ -16,9 +19,9 @@ exports.getSubCategory = async (req, res, next) => {
         message: 'This route will show all products',
         subcategory
     })
-}
+})
 
-exports.getSubCategoryByID = async (req, res, next) => {
+exports.getSubCategoryByID = catchAsynErrors(async (req, res, next) => {
 
     const subcategory = await Subcategory.findById(req.params.id);
 
@@ -27,12 +30,12 @@ exports.getSubCategoryByID = async (req, res, next) => {
     } else {
         res.status(200).json({
             success: true,
-            category
+            subcategory
         })
     }
-}
+})
 
-exports.delSubCategoryByID = async (req, res, next) => {
+exports.delSubCategoryByID = catchAsynErrors(async (req, res, next) => {
 
     const subcategory = await Subcategory.findByIdAndRemove(req.params.id);
 
@@ -43,9 +46,9 @@ exports.delSubCategoryByID = async (req, res, next) => {
             success: true,
         })
     }
-}
+})
 
-exports.updateSubCategorysByID = async (req, res, next) => {
+exports.updateSubCategorysByID = catchAsynErrors(async (req, res, next) => {
 
     let subcategory = await Subcategory.findById(req.params.id);
 
@@ -61,4 +64,4 @@ exports.updateSubCategorysByID = async (req, res, next) => {
         success :true,
         subcategory
     })
-}
+})

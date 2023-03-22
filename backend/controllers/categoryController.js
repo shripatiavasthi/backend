@@ -3,12 +3,12 @@ const ErrorHandler = require('../utils/errorHandler')
 const catchAsynErrors = require('../middlewares/catchAsynErrors')
 const APIFeatures = require('../utils/apiFeatures')
 
-exports.newCategory = async (req, res, next) => {
+exports.newCategory = catchAsynErrors(async (req, res, next) => {
     const category = await Category.create(req.body)
     res.status(201).json({ success: true, category })
-}
+})
 
-exports.getCategory = async (req, res, next) => {
+exports.getCategory = catchAsynErrors(async (req, res, next) => {
     const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter().pagination(2)
     const categoryCount = await Category.countDocuments();
     const category = await apiFeatures.query;
@@ -19,9 +19,9 @@ exports.getCategory = async (req, res, next) => {
         message: 'This route will show all products',
         category
     })
-}
+})
 
-exports.getCategoryByID = async (req, res, next) => {
+exports.getCategoryByID = catchAsynErrors(async (req, res, next) => {
 
     const category = await Category.findById(req.params.id);
 
@@ -33,11 +33,11 @@ exports.getCategoryByID = async (req, res, next) => {
             category
         })
     }
-}
+})
 
 
 
-exports.delCategoryByID = async (req, res, next) => {
+exports.delCategoryByID = catchAsynErrors(async (req, res, next) => {
 
     const category = await Category.findByIdAndRemove(req.params.id);
 
@@ -48,9 +48,9 @@ exports.delCategoryByID = async (req, res, next) => {
             success: true,
         })
     }
-}
+})
 
-exports.updateCategorysByID = async (req, res, next) => {
+exports.updateCategorysByID = catchAsynErrors(async (req, res, next) => {
 
     let category = await Category.findById(req.params.id);
 
@@ -66,4 +66,4 @@ exports.updateCategorysByID = async (req, res, next) => {
         success: true,
         category
     })
-}
+})

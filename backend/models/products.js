@@ -61,12 +61,17 @@ const productSchema = new mongoose.Schema({
             required: true,
         }
     }],
-    Category: {
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required: true
+    },
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true
     },
-    SubCategory: {
+    subCategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SubCategory',
         required: false

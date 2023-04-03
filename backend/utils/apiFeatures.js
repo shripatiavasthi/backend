@@ -29,5 +29,9 @@ class APIFeatures {
         return this
     }
 
+    populate(args){
+        this.query = this.query.populate(args)
+    }
+
 }
 module.exports = APIFeatures;

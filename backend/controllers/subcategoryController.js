@@ -9,9 +9,9 @@ exports.newSubcategory = catchAsynErrors(async (req, res, next) => {
 })
 
 exports.getSubCategory = catchAsynErrors(async (req, res, next) => {
-    const apiFeatures = new APIFeatures(Subcategory.find(), req.query).search().filter().pagination(2)
+    const apiFeatures = new APIFeatures(Subcategory, req.query).search().filter().pagination(2)
     const subcategoryCount = await Subcategory.countDocuments();
-    const subcategory = await apiFeatures.query;
+    const subcategory = await apiFeatures.query
     res.status(200).json({
         success: true,
         count: subcategory.length,

@@ -12,12 +12,15 @@ app.use(cookieParser())
 const products = require('./routes/product');
 const category = require('./routes/category');
 const subcategory = require('./routes/subcategory');
+const order = require('./routes/order');
 const auth = require('./routes/auth');
+
 
 app.use('/api/v1',auth)
 app.use('/api/v1',products)
 app.use('/api/v1',category)
 app.use('/api/v1',subcategory)
+app.use('/api/v1',order)
 
 // Middleware to handle errors
 app.use(errorMiddleware)

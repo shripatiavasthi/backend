@@ -3,7 +3,8 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsynErrors = require('../middlewares/catchAsynErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { response } = require('../app');
 
 exports.registerUser = catchAsynErrors(async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -82,7 +83,7 @@ exports.forgotPassword = catchAsynErrors(async (req, res, next) => {
     if (!user) {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
-    
+
     const resetToken = user.getResetPasswordToken();
 
     await user.save({ validateBeforSave: false })
@@ -112,3 +113,62 @@ exports.forgotPassword = catchAsynErrors(async (req, res, next) => {
     }
 })
 
+exports.getUserProfile = catchAsynErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
+
+exports.updatePassword = catchAsynErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password')
+    const isMatched = await user.comparePassword(req.body.oldPassword)
+    if (!isMatched) {
+        return next(new ErrorHandler('old passwrod is incorrect', 400));
+    }
+
+    user.password = req.body.password
+    await user.save();
+    sendToken(user, 200, res)
+})
+
+exports.updateProfile = catchAsynErrors(async (req, res, next) => {
+
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email
+    }
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData,{
+        new : true,
+        runValidator : true,
+        userFindAndModify : false
+     })
+
+     res.status(200).json({
+        success  : true
+     })
+
+})
+
+exports.allUsers = catchAsynErrors(async (req,res,next) => {
+    const user =  await User.find()
+    res.status(200).json({
+        success : true,
+        user
+    })
+})
+
+
+exports.getUserById = catchAsynErrors(async (req,res,next) => {
+
+    const user =  await User.findById(req.params.id)
+    if(!user){
+        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`,400));
+    }
+    res.status(200).json({
+        success : true,
+        user
+    })
+
+})

@@ -20,12 +20,27 @@ module.exports = (err,req,res,next) => {
         // worng Mongoose object id
         if(err.name == 'CastError'){
             const message = `Resource not found. Invalid : ${err.path}`
-            error = new Error(message,400)
+            error = new ErrorHandler(message,400)
         }
 
         // Handling moongoose validation error
         if(err.name == 'ValidationError'){
             const message = Object.values(err.errors).map(value => value.message)
+            error = new ErrorHandler(message,400)
+        }
+        // Duplicate key
+        if(err.name === 11000 ){
+            const message = `Duplicate ${Object.keys(err.keyValue)} entered`
+            error = new ErrorHandler(message,400)
+        }
+        // Handling wrong JWT error
+        if(err.name === 'JsonwebTokenError' ){
+            const message = `JSON web token is invalid. Try Again`
+            error = new ErrorHandler(message,400)
+        }
+
+        if(err.name === 'tokenExpiredError'){
+            const message = `JSON web token is Expired. Try Again`
             error = new ErrorHandler(message,400)
         }
 

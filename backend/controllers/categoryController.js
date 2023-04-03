@@ -9,7 +9,7 @@ exports.newCategory = catchAsynErrors(async (req, res, next) => {
 })
 
 exports.getCategory = catchAsynErrors(async (req, res, next) => {
-    const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter().pagination(2)
+    const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter().pagination(10)
     const categoryCount = await Category.countDocuments();
     const category = await apiFeatures.query;
     res.status(200).json({

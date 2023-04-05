@@ -13,6 +13,9 @@ const products = require('./routes/product');
 const category = require('./routes/category');
 const subcategory = require('./routes/subcategory');
 const order = require('./routes/order');
+const lead = require('./routes/lead');
+const leadStatus = require('./routes/leadStatus');
+const city = require('./routes/city');
 const auth = require('./routes/auth');
 
 
@@ -21,6 +24,10 @@ app.use('/api/v1',products)
 app.use('/api/v1',category)
 app.use('/api/v1',subcategory)
 app.use('/api/v1',order)
+app.use('/api/v1',lead)
+app.use('/api/v1',city)
+app.use('/api/v1',leadStatus)
+
 
 // Middleware to handle errors
 app.use(errorMiddleware)

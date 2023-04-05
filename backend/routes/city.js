@@ -9,9 +9,9 @@ const {
     updateCitysByID
     } = require('../controllers/cityController')
 
-router.route('/category').get(getCity);
-router.route('/category/:id').get(getCityByID);
-router.route('/admin/category/new').post(newCity) //admin
-router.route('/admin/category/:id').delete(delCityByID).put(updateCitysByID) //admin
+router.route('/city').get(getCity);
+router.route('/city/:id').get(getCityByID);
+router.route('/admin/city/new').post(newCity) //admin
+router.route('/admin/city/:id').delete(delCityByID).put(updateCitysByID) //admin
 
 module.exports = router

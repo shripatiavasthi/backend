@@ -9,9 +9,9 @@ const {
     updateLeadsByID
     } = require('../controllers/leadController')
 
-router.route('/category').get(getLeads);
-router.route('/category/:id').get(getLeadByID);
-router.route('/admin/category/new').post(newLead) //admin
-router.route('/admin/category/:id').delete(delLeadByID).put(updateLeadsByID) //admin
+router.route('/lead').get(getLeads);
+router.route('/lead/:id').get(getLeadByID);
+router.route('/lead/new').post(newLead) //admin
+router.route('/admin/lead/:id').delete(delLeadByID).put(updateLeadsByID) //admin
 
 module.exports = router

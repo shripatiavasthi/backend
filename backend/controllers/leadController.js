@@ -2,22 +2,17 @@ const Lead = require('../models/lead')
 const ErrorHandler = require('../utils/errorHandler')
 const catchAsynErrors = require('../middlewares/catchAsynErrors')
 const APIFeatures = require('../utils/apiFeatures')
-
-
+const sendEmail = require('../utils/sendEmail')
+const sendSms = require('../utils/sendSms')
 
 
 exports.newLead = catchAsynErrors(async (req, res, next) => {
-    const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-
     const lead = await Lead.create(req.body)
     res.status(201).json({ success: true, lead })
 
-    await client.messages.create({ body: `There is query from ${req.body.phoneNumber}`, from: "+15673863002", to: "+919953444416" }).then(()=>{
-        console.log('SMS SENT')
-        // next()
-    }).catch(err =>{
-        // next()
-        console.log('SMS NOT SENT')
+    sendSms({
+        body: `There is new query from number ${lead.phoneNumber}`,
+        to: "+919953444416"
     })
 })
 

@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
 
 const cityListSchema = new mongoose.Schema({
-    cityList : [{
         cityName : {
             type : String,
+            unique: true,
             required : true
         },
-        alias : {
+        alias : [{
             type : String,
-        }
-    }]
+        }]
 })
 
 module.exports = mongoose.model('cityList', cityListSchema)

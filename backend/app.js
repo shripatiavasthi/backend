@@ -9,6 +9,8 @@ app.use(express.json());
 app.use(cookieParser())
 
 // Import all routes
+const test = require('./routes/test');
+const testparameter = require('./routes/testParameter');
 const products = require('./routes/product');
 const category = require('./routes/category');
 const subcategory = require('./routes/subcategory');
@@ -19,6 +21,7 @@ const city = require('./routes/city');
 const auth = require('./routes/auth');
 
 
+
 app.use('/api/v1',auth)
 app.use('/api/v1',products)
 app.use('/api/v1',category)
@@ -27,6 +30,8 @@ app.use('/api/v1',order)
 app.use('/api/v1',lead)
 app.use('/api/v1',city)
 app.use('/api/v1',leadStatus)
+app.use('/api/v1',test)
+app.use('/api/v1',testparameter)
 
 
 // Middleware to handle errors

@@ -22,6 +22,9 @@ const leadModelSchema = new mongoose.Schema({
     leadSource : {
         type: String,
     },
+    pending : {
+        type : Date
+    }
 },{ timestamps: true })
 
 module.exports = mongoose.model('lead', leadModelSchema)

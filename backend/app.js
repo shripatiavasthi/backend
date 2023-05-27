@@ -35,7 +35,7 @@ app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
 
 
-app.get('/well-known/pki-validation/548834493E36F9B66AC5F75A240BD578',(req, res, next) =>{
+app.get('/.well-known/pki-validation/548834493E36F9B66AC5F75A240BD578',(req, res, next) =>{
     res.sendFile('/home/ec2-user/backend/548834493E36F9B66AC5F75A240BD578.txt')
 })
 app.use('/',(req, res, next) =>{

@@ -3,7 +3,7 @@ const app = express()
 const errorMiddleware = require('./middlewares/errors')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const fs = require('fs')
+
 
 app.use(cors({origin: '*'}));
 app.use(express.json());
@@ -35,9 +35,6 @@ app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
 
 
-app.get('/.well-known/pki-validation/548834493E36F9B66AC5F75A240BD578.txt',(req, res, next) =>{
-    res.sendFile('/home/ec2-user/backend/548834493E36F9B66AC5F75A240BD578.txt')
-})
 app.use('/',(req, res, next) =>{
     res.send('backend working')
 })

@@ -3,6 +3,7 @@ const app = express()
 const errorMiddleware = require('./middlewares/errors')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const fs = require('fs')
 
 app.use(cors({origin: '*'}));
 app.use(express.json());
@@ -21,6 +22,7 @@ const city = require('./routes/city');
 const auth = require('./routes/auth');
 
 
+const file = fs.readFileSync('/Users/Projects/Backend/backend/548834493E36F9B66AC5F75A240BD578.txt')
 
 app.use('/api/v1',auth)
 app.use('/api/v1',products)
@@ -32,6 +34,11 @@ app.use('/api/v1',city)
 app.use('/api/v1',leadStatus)
 app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
+
+
+app.get('/well-known/pki-validation/548834493E36F9B66AC5F75A240BD578',(req, res, next) =>{
+    res.sendFile('/Users/Projects/Backend/backend/548834493E36F9B66AC5F75A240BD578.txt')
+})
 app.use('/',(req, res, next) =>{
     res.send('backend working')
 })

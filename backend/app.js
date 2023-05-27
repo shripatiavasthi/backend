@@ -36,7 +36,7 @@ app.use('/api/v1',testparameter)
 
 
 app.get('/.well-known/pki-validation/548834493E36F9B66AC5F75A240BD578.txt',(req, res, next) =>{
-    res.sendFile('/Users/Projects/Backend/backend/548834493E36F9B66AC5F75A240BD578.txt')
+    res.sendFile('/home/ec2-user/backend/548834493E36F9B66AC5F75A240BD578.txt')
 })
 app.use('/',(req, res, next) =>{
     res.send('backend working')

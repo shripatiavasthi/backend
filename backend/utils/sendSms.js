@@ -2,7 +2,6 @@
 
 const sendSms = async options => {
     const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    // if (process.env.NODE_ENV == "PRODUCTION") {
         await client.messages.create({
             body: `${options.body}`,
             from: process.env.TWILIO_PHONE_NUMBER,
@@ -12,7 +11,6 @@ const sendSms = async options => {
         }).catch(err => {
             console.log(err, 'SMS NOT SENT')
         })
-    // }
 }
 
 module.exports = sendSms

@@ -2,7 +2,6 @@
 
 const sendSms = async options => {
     const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    console.log(process.env,"here")
     await client.messages.create({ 
         body: `${options.body}`,
         from: process.env.TWILIO_PHONE_NUMBER, 

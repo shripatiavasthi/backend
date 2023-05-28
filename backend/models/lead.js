@@ -5,6 +5,9 @@ const leadModelSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
+    name : {
+        type : String,
+    },
     email : {
         type : String,
     },

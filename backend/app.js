@@ -35,9 +35,7 @@ app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
 
 
-app.use('/',(req, res, next) =>{
-    res.send('backend working')
-})
+
 
 
 // Middleware to handle errors

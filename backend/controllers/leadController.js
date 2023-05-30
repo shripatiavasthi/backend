@@ -17,7 +17,7 @@ exports.newLead = catchAsynErrors(async (req, res, next) => {
 })
 
 exports.getLeads = catchAsynErrors(async (req, res, next) => {
-    const apiFeatures = new APIFeatures(Lead.find(), req.query).search().filter().pagination(10)
+    const apiFeatures = new APIFeatures(Lead.find().populate('cityList leadStatus'), req.query).search().filter().pagination(10)
     const categoryCount = await Lead.countDocuments();
     const lead = await apiFeatures.query;
     res.status(200).json({

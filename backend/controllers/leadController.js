@@ -31,7 +31,7 @@ exports.getLeads = catchAsynErrors(async (req, res, next) => {
 
 exports.getLeadByID = catchAsynErrors(async (req, res, next) => {
 
-    const lead = await Lead.findById(req.params.id);
+    const lead = await Lead.findById(req.params.id).populate('city leadStatus');
 
     if (!lead) {
         return next(new ErrorHandler('Product not found', 404))

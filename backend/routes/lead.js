@@ -10,9 +10,9 @@ const {
     } = require('../controllers/leadController')
 const { isAuthenticatedUser,authorizeRoles } = require('../middlewares/auth')
 
-router.route('/lead').get(isAuthenticatedUser,authorizeRoles('admin'),getLeads);
-router.route('/lead/:id').get(isAuthenticatedUser,authorizeRoles('admin'),getLeadByID);
-router.route('/lead/new').post(isAuthenticatedUser,authorizeRoles('admin'),newLead)
-router.route('/admin/lead/:id').delete(isAuthenticatedUser,authorizeRoles('admin'),delLeadByID).put(isAuthenticatedUser,authorizeRoles('admin'),updateLeadsByID) //admin
+router.route('/lead').get(getLeads);
+router.route('/lead/:id').get(getLeadByID);
+router.route('/lead/new').post(newLead)
+router.route('/admin/lead/:id').delete(delLeadByID).put(updateLeadsByID) //admin
 
 module.exports = router

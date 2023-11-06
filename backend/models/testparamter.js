@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const testParameterSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'Please enter name cannot be empty'],
+        required: [true, 'Please enter title cannot be empty'],
         trim: true,
         unique: true
     }

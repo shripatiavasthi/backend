@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+console.log(process.env,"pppppp")
 const connectDatabase = () => {
     mongoose.connect(process.env.DB_PROD_URI,{
     useNewUrlParser: true,

@@ -7,9 +7,9 @@
     "node": "14.x"
   },
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "set NODE_ENV=DEVELOPMENT & nodemon backend/server.js",
-    "prod": "set NODE_ENV=PRODUCTION & nodemon backend/server.js"
+    "start": "node backend/index.js",
+    "dev": "set NODE_ENV=DEVELOPMENT & nodemon backend/index.js",
+    "prod": "set NODE_ENV=PRODUCTION & nodemon backend/index.js"
   },
   "repository": {
     "type": "git",

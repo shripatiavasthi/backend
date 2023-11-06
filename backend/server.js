@@ -1,13 +1,14 @@
 const app = require('./app');
 const dotenv = require('dotenv');
+const path = require('path')
 const connectDatabase = require('./config/database')
-dotenv.config({ path : './backend/config/config.env' })
+dotenv.config({ path : path.resolve(__dirname,'./config/config.env') })
 const fs = require('fs')
 const https = require('https')
 
 
-const key = fs.readFileSync('private.key')
-const cert = fs.readFileSync('certificate.crt')
+//const key = fs.readFileSync('private.key')
+//const cert = fs.readFileSync('certificate.crt')
 // hanlde the uncaught exceptions
 process.on('uncaughtException',err => {
     console.log(`Error : ${err.stack}`)
@@ -32,9 +33,9 @@ server.on('unhandledRejection', err => {
 })
 
 
-const credentials = {
-    key,
-    cert
-}
-const httpsServer = https.createServer(credentials,app)
+// const credentials = {
+//     key,
+//     cert
+// }
+const httpsServer = https.createServer(app)
 httpsServer.listen(process.env.SECURE_PORT)

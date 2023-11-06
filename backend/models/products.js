@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        required: [true, 'Please enter description cannot be empty'],
         maxLenght: [500, 'Descriptiom cannot exceed 5 characters'],
     },
     ratings: {
@@ -32,23 +33,6 @@ const productSchema = new mongoose.Schema({
                 required: true,
             }
         }],
-    category: {
-        type: String,
-        required: [true, 'Please enter category cannot be empty'],
-        enum: {
-            values: [
-                'Electronics',
-                'Camera',
-                'Beauty',
-                'Food',
-                'Clothes',
-                'Shoes',
-                'Sports',
-                'TV'
-            ],
-            message: 'Please enter correct category',
-        },
-    },
     seller: {
         type: String,
         required: [true, 'Please enter seller cannot be empty'],
@@ -77,6 +61,22 @@ const productSchema = new mongoose.Schema({
             required: true,
         }
     }],
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required: true
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    },
+    subCategory: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'SubCategory',
+        required: false
+    }
+
 
 }, { timestamps: true })
 

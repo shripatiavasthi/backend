@@ -22,7 +22,6 @@ const city = require('./routes/city');
 const auth = require('./routes/auth');
 
 
-
 app.use('/api/v1',auth)
 app.use('/api/v1',products)
 app.use('/api/v1',category)

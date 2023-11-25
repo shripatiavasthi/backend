@@ -5,7 +5,9 @@ const { registerUser,loginUser,logout,forgotPassword,resetPassword,updatePasswor
 const { isAuthenticatedUser,authorizeRoles } = require('../middlewares/auth')
 
 router.route('/status').get(async (req,res,next)=>{
-    res.send(200)
+    res.send(200).json({
+        "key" : "Chal gaya"
+    })
 })
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);

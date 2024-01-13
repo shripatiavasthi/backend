@@ -8,7 +8,7 @@ const {
     getSingleProduct,
     updateProduct,
     deleteProduct, 
-    allBhai,
+    Bhairegistration,
     otpverify
 
 } = require('../controllers/productController')
@@ -17,7 +17,7 @@ router.route('/products').get(getProducts);
 
 router.route('/product/new').post(newProduct);
 
-router.route('/product/allbhai').post(allBhai);
+router.route('/product/bhai/registration').post(Bhairegistration);
 
 router.route('/product/bhai/otpverify').post(otpverify)
 

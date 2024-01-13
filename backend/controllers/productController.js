@@ -18,7 +18,7 @@ exports.newProduct = async (req, res, next) => {
     })
 }
 
-exports.allBhai = async (req, res, next) => {
+exports.Bhairegistration = async (req, res, next) => {
     const Lat_long = await Bhairegister.create(req.body);
 
     res.status(201).json({

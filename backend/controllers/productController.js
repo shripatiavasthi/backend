@@ -91,7 +91,12 @@ exports.getallBai = catchAsyncError ( async ( req , res , next ) => {
             alldata.push(locations[i])
         }
     }
-    console.log("all bai data ", alldata)
+    res.status(200).json({
+        sucess: true,
+        count: alldata.length,
+        alldata
+    })
+    
  } )
 
 // get sinbgle products => /vi/product/:id

@@ -28,6 +28,7 @@ exports.allBhai = async (req, res, next) => {
     })
 }
 
+
 exports.otpverify = async (req, res, next) => {
     const Otp = await otp.create(req.body);
 

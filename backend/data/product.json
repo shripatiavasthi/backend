@@ -1,0 +1,32 @@
+[
+    {
+        "name" : "Iphone6",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    },
+    {
+        "name" : "Iphone7",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    },
+    {
+        "name" : "Iphone8",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    },
+    {
+        "name" : "Iphone9",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    },
+    {
+        "name" : "IphoneX",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    },
+    {
+        "name" : "Iphone11",
+        "price" : "56.00",
+        "description" : "bla bla bla"
+    }
+]

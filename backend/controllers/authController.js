@@ -142,11 +142,32 @@ exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
     }
 })
 
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c // in metres
+}
+
 exports.getallBai = catchAsynErrors(async (req, res, next) => {
-    const allBais = await MeriBaiUser
+    const allBais = await MeriBaiUser.find()
+    const alldata = []
+    for ( let i = 0; i < allBais.length; i++ ) {
+        const distance = calculateDistance(6.912283 , 79.853239 , allBais[i].baiUserlat , allBais[i].baiUserlong )
+        console.log(distance / 1000 , "the distance")
+        if(distance < 10){
+            alldata.push(allBais[i])
+        }
+    }
     res.status(200).json({
         success: true,
-        allBais
+        alldata
     })
 })
 

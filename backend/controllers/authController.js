@@ -124,7 +124,7 @@ exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
         })
         res.status(200).json({
             success: true,
-            meriBaiUser
+            user : meriBaiUser
         })
     }else if (userBai) {
         return next(new ErrorHandler('something went worng', 400));

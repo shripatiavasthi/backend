@@ -39,7 +39,6 @@ const meriBaiuserSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        default: 'address'
     },
     newUser : {
         type : Boolean,

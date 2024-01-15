@@ -31,13 +31,11 @@ const meriBaiuserSchema = new mongoose.Schema({
         type : Number,
         required: [true, 'Please enter your phone number'],
     },
-    baiUserlong : {
-        type : Number,
-        required: [true, 'Please enter Bai user long'],
+    long : {
+        type : Number
     },
-    baiUserlat : {
+    lat : {
         type : Number,
-        required: [true, 'Please enter Bai user lat'],
     },
     address: {
         type: String,

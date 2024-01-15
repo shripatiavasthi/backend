@@ -68,7 +68,7 @@ function generateNumericOTP(length) {
 
 exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
-    const { phoneNumber, role } = req.body
+    const { phoneNumber } = req.body
     if (!phoneNumber) {
         return next(new ErrorHandler('Please enter phoneNumber', 400))
     }
@@ -77,26 +77,15 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
     if (!userBai) {
         const otp = generateNumericOTP(6);
         await sendSms({ body: `Welcome to MeriBai, your opt is : ${otp}`, to: phoneNumber })
-        if (role) {
-            const meriBaiUser = await MeriBaiUser.create({
-                phoneNumber,
-                otp,
-                role
-            })
-            res.status(200).json({
-                success: true,
-                meriBaiUser
-            })
-        } else {
-            const meriBaiUser = await MeriBaiUser.create({
-                phoneNumber,
-                otp
-            })
-            res.status(200).json({
-                success: true,
-                meriBaiUser
-            })
-        }
+
+        const meriBaiUser = await MeriBaiUser.create({
+            phoneNumber,
+            otp
+        })
+        res.status(200).json({
+            success: true,
+            meriBaiUser
+        })
 
     } else if (userBai) {
         const otp = generateNumericOTP(6);
@@ -121,7 +110,7 @@ exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
     if (!phoneNumber) {
         return next(new ErrorHandler('Please enter phoneNumber', 400))
     }
-    if(!otp){
+    if (!otp) {
         return next(new ErrorHandler('Please enter otp', 400))
     }
     const userBai = await MeriBaiUser.findOne({ phoneNumber })
@@ -130,10 +119,10 @@ exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
         if (userBai.otp == otp) {
             userBai.verifiedUser = true
             userBai.save()
-            sendToken(userBai,200,res)
+            sendToken(userBai, 200, res)
         }
-    } else if(!userBai){
-        return next(new Error('User with this number does not exist',400))
+    } else if (!userBai) {
+        return next(new Error('User with this number does not exist', 400))
     }
 
 })

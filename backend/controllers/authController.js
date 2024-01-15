@@ -1,10 +1,14 @@
 const User = require('../models/user')
+const MeriBaiUser = require('../models/meriBaiUser')
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsynErrors = require('../middlewares/catchAsynErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
-const { response } = require('../app');
+const sendSms = require('../utils/sendSms');
+
+
+
 
 exports.registerUser = catchAsynErrors(async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -43,6 +47,94 @@ exports.loginUser = catchAsynErrors(async (req, res, next) => {
     }
 
     sendToken(user, 200, res)
+
+})
+
+// Register MerBai User
+
+// Login bai User
+
+function generateNumericOTP(length) {
+    const digits = '0123456789';
+    let otp = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * digits.length);
+        otp += digits.charAt(randomIndex);
+    }
+
+    return otp;
+}
+
+exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
+
+    const { phoneNumber, role } = req.body
+    if (!phoneNumber) {
+        return next(new ErrorHandler('Please enter phoneNumber', 400))
+    }
+    const userBai = await MeriBaiUser.findOne({ phoneNumber })
+
+    if (!userBai) {
+        const otp = generateNumericOTP(6);
+        await sendSms({ body: `Welcome to MeriBai, your opt is : ${otp}`, to: phoneNumber })
+        if (role) {
+            const meriBaiUser = await MeriBaiUser.create({
+                phoneNumber,
+                otp,
+                role
+            })
+            res.status(200).json({
+                success: true,
+                meriBaiUser
+            })
+        } else {
+            const meriBaiUser = await MeriBaiUser.create({
+                phoneNumber,
+                otp
+            })
+            res.status(200).json({
+                success: true,
+                meriBaiUser
+            })
+        }
+
+    } else if (userBai) {
+        const otp = generateNumericOTP(6);
+        await sendSms({ body: `Use opt : ${otp} to Login`, to: phoneNumber })
+        userBai.otp = otp
+        userBai.save()
+        res.status(200).json({
+            success: true,
+            userBai
+        })
+    } else {
+        return next(new ErrorHandler('something went worng', 400));
+    }
+
+
+})
+
+
+exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
+
+    const { phoneNumber, otp } = req.body
+    if (!phoneNumber) {
+        return next(new ErrorHandler('Please enter phoneNumber', 400))
+    }
+    if(!otp){
+        return next(new ErrorHandler('Please enter otp', 400))
+    }
+    const userBai = await MeriBaiUser.findOne({ phoneNumber })
+
+    if (userBai) {
+        if (userBai.otp == otp) {
+            userBai.verifiedUser = true
+            userBai.save()
+            sendToken(userBai,200,res)
+        }
+    } else if(!userBai){
+        return next(new Error('User with this number does not exist',400))
+    }
 
 })
 
@@ -141,35 +233,35 @@ exports.updateProfile = catchAsynErrors(async (req, res, next) => {
         name: req.body.name,
         email: req.body.email
     }
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData,{
-        new : true,
-        runValidator : true,
-        userFindAndModify : false
-     })
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidator: true,
+        userFindAndModify: false
+    })
 
-     res.status(200).json({
-        success  : true
-     })
+    res.status(200).json({
+        success: true
+    })
 
 })
 
-exports.allUsers = catchAsynErrors(async (req,res,next) => {
-    const user =  await User.find()
+exports.allUsers = catchAsynErrors(async (req, res, next) => {
+    const user = await User.find()
     res.status(200).json({
-        success : true,
+        success: true,
         user
     })
 })
 
 
-exports.getUserById = catchAsynErrors(async (req,res,next) => {
+exports.getUserById = catchAsynErrors(async (req, res, next) => {
 
-    const user =  await User.findById(req.params.id)
-    if(!user){
-        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`,400));
+    const user = await User.findById(req.params.id)
+    if (!user) {
+        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`, 400));
     }
     res.status(200).json({
-        success : true,
+        success: true,
         user
     })
 

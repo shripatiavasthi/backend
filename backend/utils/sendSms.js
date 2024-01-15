@@ -7,9 +7,9 @@ const sendSms = async options => {
             from: process.env.TWILIO_PHONE_NUMBER,
             to: options.to
         }).then(() => {
-            console.log('SMS SENT')
+            console.log("success")
         }).catch(err => {
-            console.log(err, 'SMS NOT SENT')
+            console.log(err,"fail")
         })
 }
 

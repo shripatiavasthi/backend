@@ -114,6 +114,42 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
 })
 
+exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
+    const { name , address , phoneNumber , baiUserlong , baiUserlat  } = req.body
+    if (!name) {
+        return next(new ErrorHandler('Please enter Firstname', 400))
+    }else if (!address){
+        return next(new ErrorHandler('Please enter Lastname', 400))
+    }else if (!phoneNumber){
+        return next(new ErrorHandler('Please enter address', 400))
+    }
+
+    const userBai = await MeriBaiUser.findOne({ phoneNumber })
+    if (!userBai) {
+        const meriBaiUser = await MeriBaiUser.create({
+            name,
+            baiUserlong,
+            baiUserlat,
+            phoneNumber,
+            address
+        })
+        res.status(200).json({
+            success: true,
+            meriBaiUser
+        })
+    }else if (userBai) {
+        return next(new ErrorHandler('something went worng', 400));
+    }
+})
+
+exports.getallBai = catchAsynErrors(async (req, res, next) => {
+    const allBais = await MeriBaiUser
+    res.status(200).json({
+        success: true,
+        allBais
+    })
+})
+
 
 exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
 

@@ -84,7 +84,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
         })
         res.status(200).json({
             success: true,
-            meriBaiUser
+            user : meriBaiUser
         })
 
     } else if (userBai) {
@@ -94,7 +94,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
         userBai.save()
         res.status(200).json({
             success: true,
-            userBai
+            user : userBai
         })
     } else {
         return next(new ErrorHandler('something went worng', 400));

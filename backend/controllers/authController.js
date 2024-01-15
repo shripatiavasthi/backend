@@ -177,6 +177,8 @@ exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
             userBai.verifiedUser = true
             userBai.save()
             sendToken(userBai, 200, res)
+        }else{
+            return next(new Error('Invalid otp', 400))
         }
     } else if (!userBai) {
         return next(new Error('User with this number does not exist', 400))

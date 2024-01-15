@@ -104,7 +104,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 })
 
 exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
-    const { name , address , phoneNumber , baiUserlong , baiUserlat  } = req.body
+    const { name , address , phoneNumber , long , lat  } = req.body
     if (!name) {
         return next(new ErrorHandler('Please enter Firstname', 400))
     }else if (!address){
@@ -117,8 +117,8 @@ exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
     if (!userBai) {
         const meriBaiUser = await MeriBaiUser.create({
             name,
-            baiUserlong,
-            baiUserlat,
+            long,
+            lat,
             phoneNumber,
             address
         })
@@ -148,7 +148,7 @@ exports.getallBai = catchAsynErrors(async (req, res, next) => {
     const allBais = await MeriBaiUser.find()
     const alldata = []
     for ( let i = 0; i < allBais.length; i++ ) {
-        const distance = calculateDistance(6.912283 , 79.853239 , allBais[i].baiUserlat , allBais[i].baiUserlong )
+        const distance = calculateDistance(6.912283 , 79.853239 , allBais[i].lat , allBais[i].long )
         console.log(distance / 1000 , "the distance")
         if(distance < 10){
             alldata.push(allBais[i])

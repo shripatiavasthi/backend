@@ -31,6 +31,18 @@ const meriBaiuserSchema = new mongoose.Schema({
         type : Number,
         required: [true, 'Please enter your phone number'],
     },
+    baiUserlong : {
+        type : Number,
+        required: [true, 'Please enter Bai user long'],
+    },
+    baiUserlat : {
+        type : Number,
+        required: [true, 'Please enter Bai user lat'],
+    },
+    address: {
+        type: String,
+        default: 'address'
+    },
     newUser : {
         type : Boolean,
         default : true

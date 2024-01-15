@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { registerUser,loginUser,loginBaiUser,logout,forgotPassword,resetPassword,updatePassword,updateProfile,allUsers,getUserById,getUserProfile,verifyOtp} = require('../controllers/authController');
+const { registerUser,loginUser,loginBaiUser, registerBaiUser,getallBai,logout,forgotPassword,resetPassword,updatePassword,updateProfile,allUsers,getUserById,getUserProfile,verifyOtp} = require('../controllers/authController');
 const { isAuthenticatedUser,authorizeRoles } = require('../middlewares/auth')
 
 router.route('/status').get(async (req,res,next)=>{
@@ -9,6 +9,9 @@ router.route('/status').get(async (req,res,next)=>{
 })
 router.route('/register').post(registerUser);
 router.route('/login').post(loginBaiUser);
+router.route('/bai/register').post(registerBaiUser);
+router.route('/allbai').get(getallBai);
+
 router.route('/verifyotp').post(verifyOtp)
 router.route('/password/forgot').post(forgotPassword)
 router.route('/password/reset/:token').put(resetPassword)

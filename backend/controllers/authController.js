@@ -114,7 +114,8 @@ exports.registerBaiUser = catchAsynErrors(async (req, res, next) => {
     if (verifiedUser) {
         const newuserBai = await MeriBaiUser.findOneAndUpdate({ _id : _id}, {
             name,
-            address
+            address,
+            role : 'maid'
         },
         { new: true })
 

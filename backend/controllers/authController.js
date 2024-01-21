@@ -84,7 +84,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
         })
         res.status(200).json({
             success: true,
-            user : meriBaiUser
+            user: meriBaiUser
         })
 
     } else if (userBai) {
@@ -94,7 +94,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
         userBai.save()
         res.status(200).json({
             success: true,
-            user : userBai
+            user: userBai
         })
     } else {
         return next(new ErrorHandler('something went worng', 400));
@@ -103,32 +103,29 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
 })
 
-exports.registerBaiUser = catchAsynErrors(async (req, res , next) => {
-    const { name , address , phoneNumber , long , lat  } = req.body
+exports.registerBaiUser = catchAsynErrors(async (req, res, next) => {
+
+    const { name, address, long, lat } = req.body
+    const { _id, verifiedUser } = req.user
+
     if (!name) {
         return next(new ErrorHandler('Please enter Firstname', 400))
-    }else if (!address){
-        return next(new ErrorHandler('Please enter Lastname', 400))
-    }else if (!phoneNumber){
-        return next(new ErrorHandler('Please enter address', 400))
     }
-
-    const userBai = await MeriBaiUser.findOne({ phoneNumber })
-    if (!userBai) {
-        const meriBaiUser = await MeriBaiUser.create({
+    if (verifiedUser) {
+        const newuserBai = await MeriBaiUser.findOneAndUpdate({ _id : _id}, {
             name,
-            long,
-            lat,
-            phoneNumber,
             address
-        })
+        },
+        { new: true })
+
         res.status(200).json({
             success: true,
-            user : meriBaiUser
+            user : newuserBai
         })
-    }else if (userBai) {
-        return next(new ErrorHandler('something went worng', 400));
+    }else{
+        return next(new ErrorHandler('Not a verified user', 400));
     }
+
 })
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -147,10 +144,10 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 exports.getallBai = catchAsynErrors(async (req, res, next) => {
     const allBais = await MeriBaiUser.find()
     const alldata = []
-    for ( let i = 0; i < allBais.length; i++ ) {
-        const distance = calculateDistance(6.912283 , 79.853239 , allBais[i].lat , allBais[i].long )
-        console.log(distance / 1000 , "the distance")
-        if(distance < 10){
+    for (let i = 0; i < allBais.length; i++) {
+        const distance = calculateDistance(6.912283, 79.853239, allBais[i].lat, allBais[i].long)
+        console.log(distance / 1000, "the distance")
+        if (distance < 10) {
             alldata.push(allBais[i])
         }
     }
@@ -177,7 +174,7 @@ exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
             userBai.verifiedUser = true
             userBai.save()
             sendToken(userBai, 200, res)
-        }else{
+        } else {
             return next(new Error('Invalid otp', 400))
         }
     } else if (!userBai) {

@@ -68,7 +68,7 @@ function generateNumericOTP(length) {
 
 exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
-    const { phoneNumber } = req.body
+    const { phoneNumber,lat,long } = req.body
     if (!phoneNumber) {
         return next(new ErrorHandler('Please enter phoneNumber', 400))
     }
@@ -80,7 +80,9 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
         const meriBaiUser = await MeriBaiUser.create({
             phoneNumber,
-            otp
+            otp,
+            long,
+            lat
         })
         res.status(200).json({
             success: true,
@@ -105,7 +107,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
 exports.registerBaiUser = catchAsynErrors(async (req, res, next) => {
 
-    const { name, address, long, lat } = req.body
+    const { name, address } = req.body
     const { _id, verifiedUser } = req.user
 
     if (!name) {

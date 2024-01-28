@@ -56,11 +56,16 @@ const meriBaiuserSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    location: {
+        type: { type: String, default: 'Point' },
+        coordinates: [Number],
+    },
     createdAt: {
         type: Date,
         default: Date.now
     }
 })
+meriBaiuserSchema.index({ location: '2dsphere' });
 
 meriBaiuserSchema.methods.getjwtToken = function () {
     return jwt.sign({ id : this._id}, process.env.JWT_SECRET,{

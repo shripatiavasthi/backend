@@ -2,16 +2,16 @@ const express = require('express')
 const router = express.Router();
 
 const {
-    newTest,
-    getTests,
-    getTestByID,
-    delTestByID,
-    updateTestsByID
-    } = require('../controllers/testController')
+    newPackage,
+    getPackages,
+    getPackageByID,
+    delPackageByID,
+    updatePackagesByID
+    } = require('../controllers/packageController')
 
-router.route('/test').get(getTests);
-router.route('/test/:id').get(getTestByID);
-router.route('/test/new').post(newTest)
-router.route('/admin/test/:id').delete(delTestByID).put(updateTestsByID) //admin
+router.route('/package').get(getPackages);
+router.route('/package/:id').get(getPackageByID);
+router.route('/package/new').post(newPackage)
+router.route('/admin/package/:id').delete(delPackageByID).put(updatePackagesByID) //admin
 
 module.exports = router

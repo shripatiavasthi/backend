@@ -1,24 +1,32 @@
 const mongoose = require('mongoose');
 
 const bannerSchema = new mongoose.Schema({
-    banners : [{
-    uuid : {
+    uuid: {
         type: String,
-        required: [true,'please check uuid not added uuid'],
+        required: [true, 'please check uuid not added uuid'],
     },
-    url : {
+    url: {
         type: String,
-        required: [true,'S3 url not provided'],
+        required: [true, 'S3 url not provided'],
     },
-    name : {
+    mimeType : {
         type: String,
-        required: [true,'name not provided'],
     },
-    active : {
+    name: {
+        type: String,
+        required: [true, 'name not provided'],
+    },
+    size : {
+        type : Number,
+    },
+    active: {
         type: Boolean,
-        default : false,
+        default: true,
+    },
+    filename : {
+        type : String,
+        required : [true, 'filename not provided'],
     }
-}]
 })
 
 module.exports = mongoose.model('Banner', bannerSchema);

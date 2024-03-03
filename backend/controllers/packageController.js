@@ -24,7 +24,13 @@ exports.getPackages = catchAsynErrors(async (req, res, next) => {
 
 exports.getPackageByID = catchAsynErrors(async (req, res, next) => {
 
-    const package = await Package.findById(req.params.id).populate('packageParameters');
+    const package = await Package.findById(req.params.id).populate({
+        path: 'packageParameters',
+        populate: {
+          path: 'testParameters',
+          model: 'testParameter'
+        }
+      });
 
     if (!package) {
         return next(new ErrorHandler('Product not found', 404))

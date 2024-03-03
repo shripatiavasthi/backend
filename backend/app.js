@@ -21,12 +21,14 @@ const leadStatus = require('./routes/leadStatus');
 const city = require('./routes/city');
 const auth = require('./routes/auth');
 const banners = require('./routes/banners');
+const packages = require('./routes/package');
 
 
 
 app.use('/api/v1',auth)
 app.use('/api/v1',banners)
 app.use('/api/v1',products)
+app.use('/api/v1',packages)
 app.use('/api/v1',category)
 app.use('/api/v1',subcategory)
 app.use('/api/v1',order)

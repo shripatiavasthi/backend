@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const packageSchema = new mongoose.Schema({
-    testName: {
+    packageName: {
         type: String,
         required: [true, 'Please enter name cannot be empty'],
         trim: true

@@ -2,6 +2,7 @@
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const aws = require("aws-sdk");
+const { v4: uuidv4 } = require('uuid');
 
 aws.config.update({
     region: process.env.AWS_REGION,
@@ -11,19 +12,30 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
-const upload = multer({
+const upload = (folder) => multer({
     storage: multerS3({
         s3: s3,
         bucket: 'backend-node-anjani',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         metadata: function (req, file, cb) {
-           cb(null, { fieldName: file.originalname });
+            cb(null, { 
+                mimeType: file.mimetype,
+                originalName: file.originalname
+            });
         },
         key: function (req, file, cb) {
-            console.log(file)
-            cb(null, Date.now().toString())
+            const extension = file.originalname.split('.').pop()
+            const uniqueID = uuidv4()
+            const key = folder + '/' + uniqueID + '.' + extension;
+            cb(null, key)
         }
-    })
+        
+    }),
+    onError: function(err, next) {
+        console.error('Upload to S3 failed:', err);
+        next(err);
+    }
+    
 })
 
 module.exports = upload

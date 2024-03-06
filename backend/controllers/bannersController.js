@@ -36,3 +36,4 @@ exports.getAllBanner = catchAsynErrors(async (req, res, next) => {
         res.status(404).json({ success: false, message : 'no banner found please upload or check with DB' })
     }
 })
+

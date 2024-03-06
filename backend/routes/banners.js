@@ -4,6 +4,7 @@ const { updateBanner,getAllBanner} = require('../controllers/bannersController')
 const { isAuthenticatedUser,authorizeRoles } = require('../middlewares/auth');
 const upload = require('../utils/fileuploadS3');
 
+
 const bannerUpload = upload('banner');
 
 router.route('/web/banners').get(getAllBanner)

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { registerUser,loginUser,loginBaiUser, registerBaiUser,getallBai,logout,forgotPassword,resetPassword,updatePassword,updateProfile,allUsers,getUserById,getUserProfile,verifyOtp} = require('../controllers/authController');
+const { registerUser,loginUser,loginBaiUser,requestBai,getrequestfrom, registerBaiUser,getallBai,logout,forgotPassword,resetPassword,updatePassword,updateProfile,allUsers,getUserById,getUserProfile,verifyOtp,getallbaiuser} = require('../controllers/authController');
 const { isAuthenticatedUser,authorizeRoles,isAuthenticatedBaiUser } = require('../middlewares/auth')
 
 router.route('/status').get(async (req,res,next)=>{
@@ -10,7 +10,10 @@ router.route('/status').get(async (req,res,next)=>{
 router.route('/register').post(registerUser);
 router.route('/login').post(loginBaiUser);
 router.route('/bai/register').post(isAuthenticatedBaiUser,registerBaiUser);
-router.route('/allbai').get(isAuthenticatedBaiUser,getallBai);
+router.route('/allbai').get(getallBai);
+router.route('/admin/alluser').get(getallbaiuser)
+router.route('/request/bai').post(isAuthenticatedBaiUser,requestBai)
+router.route('/request/bai').get(isAuthenticatedBaiUser,getrequestfrom)
 
 router.route('/verifyotp').post(verifyOtp)
 router.route('/password/forgot').post(forgotPassword)

@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const MeriBaiUser = require('../models/meriBaiUser')
+const RequestedBai = require('../models/requestedBai')
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsynErrors = require('../middlewares/catchAsynErrors');
 const sendToken = require('../utils/jwtToken');
@@ -68,7 +69,7 @@ function generateNumericOTP(length) {
 
 exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
-    const { phoneNumber,lat,long } = req.body
+    const { phoneNumber, lat, long } = req.body
     if (!phoneNumber) {
         return next(new ErrorHandler('Please enter phoneNumber', 400))
     }
@@ -83,8 +84,8 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
             otp,
             long,
             lat,
-            location : {
-                coordinates : [long,lat]
+            location: {
+                coordinates: [long, lat]
             }
         })
         res.status(200).json({
@@ -117,18 +118,18 @@ exports.registerBaiUser = catchAsynErrors(async (req, res, next) => {
         return next(new ErrorHandler('Please enter Firstname', 400))
     }
     if (verifiedUser) {
-        const newuserBai = await MeriBaiUser.findOneAndUpdate({ _id : _id}, {
+        const newuserBai = await MeriBaiUser.findOneAndUpdate({ _id: _id }, {
             name,
             address,
-            role : 'maid'
+            role: 'maid'
         },
-        { new: true })
+            { new: true })
 
         res.status(200).json({
             success: true,
-            user : newuserBai
+            user: newuserBai
         })
-    }else{
+    } else {
         return next(new ErrorHandler('Not a verified user', 400));
     }
 
@@ -136,22 +137,57 @@ exports.registerBaiUser = catchAsynErrors(async (req, res, next) => {
 
 exports.getallBai = catchAsynErrors(async (req, res, next) => {
 
-    const { lat,long } = req.user
+    const { lat, long } = req.user
     const pipeline = [
-        { $geoNear : {
-            near: { type: 'Point', coordinates: [long, lat] },
-            distanceField: 'distance',
-            maxDistance: 8000,
-            spherical: true,
-          }},
-          {$match: { role : 'maid'}}
+        {
+            $geoNear: {
+                near: { type: 'Point', coordinates: [long, lat] },
+                distanceField: 'distance',
+                maxDistance: 8000,
+                spherical: true,
+            }
+        },
+        { $match: { role: 'maid' } }
     ];
 
     const allBais = await MeriBaiUser.aggregate(pipeline)
 
     res.status(200).json({
         success: true,
-        data : allBais
+        data: allBais
+    })
+})
+
+exports.getallbaiuser = catchAsynErrors(async (req, res, next) => {
+
+    const allBais = await MeriBaiUser.find()
+
+    res.status(200).json({
+        success: true,
+        data: allBais
+    })
+})
+
+exports.requestBai = catchAsynErrors(async (req, res, next) => {
+    const { _id } = req.user
+    const body = {
+        bai_user_id: req.body.bai_user_id,
+        request_by: [{ _id }]
+    }
+    const allBais = await RequestedBai.create(body)
+    res.status(200).json({
+        success: true,
+        data: allBais
+    })
+})
+
+
+exports.getrequestfrom = catchAsynErrors(async (req, res, next) => {
+    const { _id } = req.user
+    const data = await RequestedBai.find({ "bai_user_id" : _id}).populate("request_by")
+    res.status(200).json({
+        success: true,
+        data
     })
 })
 

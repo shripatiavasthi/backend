@@ -184,7 +184,7 @@ exports.requestBai = catchAsynErrors(async (req, res, next) => {
 
 exports.getrequestfrom = catchAsynErrors(async (req, res, next) => {
     const { _id } = req.user
-    const data = await RequestedBai.find({ "bai_user_id" : _id}).populate("request_by")
+    const data = await RequestedBai.findOne({ "bai_user_id" : _id}).populate("request_by")
     res.status(200).json({
         success: true,
         data

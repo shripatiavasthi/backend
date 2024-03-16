@@ -10,7 +10,7 @@ router.route('/status').get(async (req,res,next)=>{
 router.route('/register').post(registerUser);
 router.route('/login').post(loginBaiUser);
 router.route('/bai/register').post(isAuthenticatedBaiUser,registerBaiUser);
-router.route('/allbai').get(getallBai);
+router.route('/allbai').get(isAuthenticatedBaiUser,getallBai);
 router.route('/admin/alluser').get(getallbaiuser)
 router.route('/request/bai').post(isAuthenticatedBaiUser,requestBai)
 router.route('/request/bai').get(isAuthenticatedBaiUser,getrequestfrom)

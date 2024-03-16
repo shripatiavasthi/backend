@@ -77,7 +77,7 @@ exports.loginBaiUser = catchAsynErrors(async (req, res, next) => {
 
     if (!userBai) {
         const otp = generateNumericOTP(6);
-        // await sendSms({ body: `Welcome to MeriBai, your opt is : ${otp}`, to: phoneNumber })
+        await sendSms({ body: `Welcome to MeriBai, your opt is : ${otp}`, to: phoneNumber })
 
         const meriBaiUser = await MeriBaiUser.create({
             phoneNumber,

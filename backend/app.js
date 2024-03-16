@@ -22,6 +22,7 @@ const city = require('./routes/city');
 const auth = require('./routes/auth');
 const banners = require('./routes/banners');
 const packages = require('./routes/package');
+const profile = require('./routes/profile');
 
 
 
@@ -37,6 +38,7 @@ app.use('/api/v1',city)
 app.use('/api/v1',leadStatus)
 app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
+app.use('/api/v1',profile)
 
 
 

@@ -20,7 +20,7 @@ exports.updateBanner = catchAsynErrors(async (req, res, next) => {
     if(banner){
         res.status(200).json({ success: true, banner })
     }else{
-        return next(new ErrorHandler('unable to save image', 404))
+        return next(new ErrorHandler('unable to save image', 400))
     }
 })
 

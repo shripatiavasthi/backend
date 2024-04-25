@@ -23,7 +23,7 @@ const auth = require('./routes/auth');
 const banners = require('./routes/banners');
 const packages = require('./routes/package');
 const profile = require('./routes/profile');
-
+const clientcheck = require('./routes/clientcheck');
 
 
 app.use('/api/v1',auth)
@@ -39,6 +39,7 @@ app.use('/api/v1',leadStatus)
 app.use('/api/v1',test)
 app.use('/api/v1',testparameter)
 app.use('/api/v1',profile)
+app.use('/api/v1',clientcheck)
 
 
 

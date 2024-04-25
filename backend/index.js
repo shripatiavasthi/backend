@@ -7,9 +7,6 @@ const fs = require('fs')
 const https = require('https')
 
 
-//const key = fs.readFileSync('private.key')
-//const cert = fs.readFileSync('certificate.crt')
-// hanlde the uncaught exceptions
 process.on('uncaughtException',err => {
     console.log(`Error : ${err.stack}`)
     console.log('Shutting down server')
@@ -33,9 +30,5 @@ server.on('unhandledRejection', err => {
 })
 
 
-// const credentials = {
-//     key,
-//     cert
-// }
 const httpsServer = https.createServer(app)
 httpsServer.listen(process.env.SECURE_PORT)

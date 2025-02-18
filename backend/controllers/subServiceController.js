@@ -1,5 +1,6 @@
 const Subservices = require('../models/subservices')
 const ErrorHandler = require('../utils/errorHandler')
+const mongoose = require("mongoose");
 const catchAsynErrors = require('../middlewares/catchAsynErrors')
 const APIFeatures = require('../utils/apiFeatures')
 
@@ -68,4 +69,21 @@ exports.updateSubservicesByID = catchAsynErrors(async (req, res, next) => {
         success: true,
         subservices
     })
+})
+
+exports.getServiceSubserviceByID = catchAsynErrors(async (req, res, next) => {
+    try {
+        const subservices = await Subservices.aggregate([
+            {
+                $match: { service: new mongoose.Types.ObjectId(req.params.id) }
+            },
+            {
+                $sort: { sortorder: 1 } 
+            }
+        ]);
+
+        res.status(200).json( {success : true , data : subservices});
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
 })

@@ -11,11 +11,12 @@ const servicesSchema = new mongoose.Schema({
     },
     active : {
         type: Boolean,
-        default : false,
+        default : true,
     },
     sortorder : {
         type : Number,
-        default : 0
+        default : 0,
+        required: [true,'sort order not provided'],
     }
 })
 

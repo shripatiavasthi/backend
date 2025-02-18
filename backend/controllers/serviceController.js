@@ -19,7 +19,7 @@ exports.getServices = catchAsynErrors(async (req, res, next) => {
         count: services.length,
         categoryCount,
         message: 'This route will show all services',
-        services
+        data : services
     })
 })
 

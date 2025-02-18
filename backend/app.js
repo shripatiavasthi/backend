@@ -20,12 +20,15 @@ const lead = require('./routes/lead');
 const leadStatus = require('./routes/leadStatus');
 const city = require('./routes/city');
 const auth = require('./routes/auth');
-const banners = require('./routes/banners');
+const uploadfile = require('./routes/uploadfile');
+const services = require('./routes/services');
+const subservices = require('./routes/subservices');
 
 
-
+app.use('/api/v1',services)
+app.use('/api/v1',subservices)
 app.use('/api/v1',auth)
-app.use('/api/v1',banners)
+app.use('/api/v1',uploadfile)
 app.use('/api/v1',products)
 app.use('/api/v1',category)
 app.use('/api/v1',subcategory)

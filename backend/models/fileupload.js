@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const bannerSchema = new mongoose.Schema({
+const fileuploadedSchema = new mongoose.Schema({
     banners : [{
     uuid : {
         type: String,
@@ -21,4 +21,4 @@ const bannerSchema = new mongoose.Schema({
 }]
 })
 
-module.exports = mongoose.model('Banner', bannerSchema);
+module.exports = mongoose.model('file', fileuploadedSchema);

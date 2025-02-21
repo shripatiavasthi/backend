@@ -52,7 +52,7 @@ const vitalCareUserSchema = new mongoose.Schema({
     }
 })
 
-toyUserSchema.methods.getjwtToken = function () {
+vitalCareUserSchema.methods.getjwtToken = function () {
     return jwt.sign({ id : this._id}, process.env.JWT_SECRET,{
         expiresIn : process.env.JWT_EXPIRES_TIME 
     })

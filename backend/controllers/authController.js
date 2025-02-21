@@ -1,10 +1,12 @@
 const User = require('../models/user')
+const vitalCareUser = require('../models/client')
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsynErrors = require('../middlewares/catchAsynErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
-const { response } = require('../app');
+const sendSms = require('../utils/sendSms');
+
 
 exports.registerUser = catchAsynErrors(async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -45,14 +47,25 @@ exports.loginUser = catchAsynErrors(async (req, res, next) => {
     sendToken(user, 200, res)
 
 })
+function generateNumericOTP(length) {
+    const digits = '0123456789';
+    let otp = '';
 
-exports.loginToysUser = catchAsynErrors(async (req, res, next) => {
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * digits.length);
+        otp += digits.charAt(randomIndex);
+    }
+
+    return otp;
+}
+
+exports.loginVitalUser = catchAsynErrors(async (req, res, next) => {
 
     const { phoneNumber } = req.body
     if (!phoneNumber) {
         return next(new ErrorHandler('Please enter phoneNumber', 400))
     }
-    const userBai = await ToyUser.findOne({ phoneNumber }).select('-otp')
+    const userBai = await vitalCareUser.findOne({ phoneNumber }).select('-otp')
 
     if (!userBai) {
         const otp = generateNumericOTP(4);
@@ -60,12 +73,12 @@ exports.loginToysUser = catchAsynErrors(async (req, res, next) => {
             otp,
             to: phoneNumber
         })
-        const Toyuser = await ToyUser.create({
+        const vitalcareEmp = await vitalCareUser.create({
             phoneNumber,
             otp
         })
     
-        const userWithoutOtp = Toyuser.toObject();
+        const userWithoutOtp = vitalcareEmp.toObject();
         delete userWithoutOtp.otp;
 
         res.status(200).json({
@@ -91,6 +104,31 @@ exports.loginToysUser = catchAsynErrors(async (req, res, next) => {
         return next(new ErrorHandler('something went worng', 400));
     }
 
+
+})
+
+exports.verifyOtp = catchAsynErrors(async (req, res, next) => {
+
+    const { phoneNumber, otp } = req.body
+    if (!phoneNumber) {
+        return next(new ErrorHandler('Please enter phoneNumber', 400))
+    }
+    if (!otp) {
+        return next(new ErrorHandler('Please enter otp', 400))
+    }
+    const userBai = await vitalCareUser.findOne({ phoneNumber })
+
+    if (userBai) {
+        if (userBai.otp == otp) {
+            userBai.verifiedUser = true
+            userBai.save()
+            sendToken(userBai, 200, res)
+        } else {
+            return next(new Error('Invalid otp', 400))
+        }
+    } else if (!userBai) {
+        return next(new Error('User with this number does not exist', 400))
+    }
 
 })
 

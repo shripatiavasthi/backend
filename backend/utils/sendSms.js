@@ -1,16 +1,15 @@
+var unirest = require("unirest");
 
 
 const sendSms = async options => {
-    const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-        await client.messages.create({
-            body: `${options.body}`,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: options.to
-        }).then(() => {
-            console.log('SMS SENT')
-        }).catch(err => {
-            console.log(err, 'SMS NOT SENT')
-        })
+  var req = unirest("GET",`https://2factor.in/API/V1/e0e264c8-edda-11ee-8cbb-0200cd936042/SMS/${options.to}/${options.otp}/LOGIN+OTP`)
+
+    req.type("json");
+    req.send()
+    
+    req.end(function (res) {
+        if (res.error) throw new Error(res.error);
+      });
 }
 
 module.exports = sendSms

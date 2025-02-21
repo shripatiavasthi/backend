@@ -46,6 +46,54 @@ exports.loginUser = catchAsynErrors(async (req, res, next) => {
 
 })
 
+exports.loginToysUser = catchAsynErrors(async (req, res, next) => {
+
+    const { phoneNumber } = req.body
+    if (!phoneNumber) {
+        return next(new ErrorHandler('Please enter phoneNumber', 400))
+    }
+    const userBai = await ToyUser.findOne({ phoneNumber }).select('-otp')
+
+    if (!userBai) {
+        const otp = generateNumericOTP(4);
+        await sendSms({
+            otp,
+            to: phoneNumber
+        })
+        const Toyuser = await ToyUser.create({
+            phoneNumber,
+            otp
+        })
+    
+        const userWithoutOtp = Toyuser.toObject();
+        delete userWithoutOtp.otp;
+
+        res.status(200).json({
+            success: true,
+            user: userWithoutOtp
+        })
+
+    } else if (userBai) {
+        const otp = generateNumericOTP(4);
+        await sendSms({
+            otp,
+            to: phoneNumber
+        })
+
+        res.status(200).json({
+            success: true,
+            user: userBai
+        })
+
+        userBai.otp = otp
+        userBai.save()
+    } else {
+        return next(new ErrorHandler('something went worng', 400));
+    }
+
+
+})
+
 // Logout user
 exports.logout = catchAsynErrors(async (req, res, next) => {
     res.cookie('token', null, { expires: new Date(Date.now()), httpOnly: true })

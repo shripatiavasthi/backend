@@ -7,7 +7,7 @@ const APIFeatures = require('../utils/apiFeatures')
 
 exports.newSubservices = catchAsynErrors(async (req, res, next) => {
     const subservices = await Subservices.create(req.body)
-    res.status(201).json({ success: true, subservices })
+    res.status(201).json({ success: true, data : subservices })
 
 })
 
@@ -20,7 +20,7 @@ exports.getSubservices = catchAsynErrors(async (req, res, next) => {
         count: subservices.length,
         categoryCount,
         message: 'This route will show all subservices',
-        subservices
+        data : subservices
     })
 })
 
@@ -33,7 +33,7 @@ exports.getSubservicesByID = catchAsynErrors(async (req, res, next) => {
     } else {
         res.status(200).json({
             success: true,
-            subservices
+            data : subservices
         })
     }
 })
@@ -67,7 +67,7 @@ exports.updateSubservicesByID = catchAsynErrors(async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        subservices
+        data : subservices
     })
 })
 

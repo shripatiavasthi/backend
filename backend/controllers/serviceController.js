@@ -23,6 +23,7 @@ exports.getServices = catchAsynErrors(async (req, res, next) => {
     })
 })
 
+
 exports.getServicesByID = catchAsynErrors(async (req, res, next) => {
 
     const services = await Services.findById(req.params.id).populate('Subservice');
@@ -66,6 +67,6 @@ exports.updateServicesByID = catchAsynErrors(async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        services
+        data : services
     })
 })

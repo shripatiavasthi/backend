@@ -1,0 +1,61 @@
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+
+
+
+const vitalCareUserSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        maxLength: [30, 'name cannot exceed 30 characters']
+    },
+    email: {
+        type: String,
+        required: false,
+        default: null
+    },
+    otp : {
+        type: String,
+    },
+    avatar: {
+        public_id: {
+            type: String,
+            // required : true
+        },
+        url: {
+            type: String,
+            // required : true
+        }
+    },
+    phoneNumber : {
+        type : Number,
+        required: [true, 'Please enter your phone number'],
+    },
+    newUser : {
+        type : Boolean,
+        default : true
+    },
+    role: {
+        type: String,
+        default: 'user'
+    },
+    verifiedUser : {
+        type : Boolean,
+        default : false,
+    },
+    disabled : {
+        type : Boolean,
+        default : false,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+})
+
+toyUserSchema.methods.getjwtToken = function () {
+    return jwt.sign({ id : this._id}, process.env.JWT_SECRET,{
+        expiresIn : process.env.JWT_EXPIRES_TIME 
+    })
+}
+
+module.exports = mongoose.model('vitalCareEmp', vitalCareUserSchema);

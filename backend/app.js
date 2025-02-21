@@ -23,9 +23,11 @@ const auth = require('./routes/auth');
 const uploadfile = require('./routes/uploadfile');
 const services = require('./routes/services');
 const subservices = require('./routes/subservices');
+const employees = require('./routes/employee');
 
 
 app.use('/api/v1',services)
+app.use('/api/v1',employees)
 app.use('/api/v1',subservices)
 app.use('/api/v1',auth)
 app.use('/api/v1',uploadfile)

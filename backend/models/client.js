@@ -58,4 +58,4 @@ vitalCareUserSchema.methods.getjwtToken = function () {
     })
 }
 
-module.exports = mongoose.model('vitalCareEmp', vitalCareUserSchema);
+module.exports = mongoose.model('vitalCareCustomer', vitalCareUserSchema);

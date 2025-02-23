@@ -10,7 +10,6 @@ const vitalCareUserSchema = new mongoose.Schema({
     },
     subservice : {
         type: mongoose.Schema.Types.ObjectId,
-        required : true,
         ref : "Subservice"
     },
     email: {

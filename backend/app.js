@@ -24,8 +24,11 @@ const uploadfile = require('./routes/uploadfile');
 const services = require('./routes/services');
 const subservices = require('./routes/subservices');
 const employees = require('./routes/employee');
+const customers = require('./routes/customer');
 
 
+
+app.use('/api/v1',customers)
 app.use('/api/v1',services)
 app.use('/api/v1',employees)
 app.use('/api/v1',subservices)

@@ -46,6 +46,12 @@ const vitalCareUserSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    description : {
+        type : String
+    },
+    prescription : {
+        tyep : String,
+    },
     createdAt: {
         type: Date,
         default: Date.now

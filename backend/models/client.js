@@ -8,6 +8,11 @@ const vitalCareUserSchema = new mongoose.Schema({
         type: String,
         maxLength: [30, 'name cannot exceed 30 characters']
     },
+    subservice : {
+        type: mongoose.Schema.Types.ObjectId,
+        required : true,
+        ref : "Subservice"
+    },
     email: {
         type: String,
         required: false,

@@ -59,7 +59,7 @@ const vitalCareUserSchema = new mongoose.Schema({
         required: false,
     },
     married : {
-        type: Boolean,
+        type: String,
         required: false,
     },
     dl : {
